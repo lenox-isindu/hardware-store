@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matete Hardware - Login</title>
+    <link rel="stylesheet" href="hardwarelogin .css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Matete Hardware</div>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <div class="login-container">
+            <h2>Login to Your Account</h2>
+            <form action="your-login-endpoint" method="POST">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+
+                <a href="index.html">
+                    <button type="button" class="sign-in-button">log in</button>
+                </a>
+            </form>
+            <!-- Google Sign-In Button -->
+<div class="google-sign-in">
+    <button type="button" class="google-sign-in-button">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" class="google-logo">
+        Sign in with Google
+    </button>
+</div>
+<!-- SMS Sign-In Button -->
+<div class="sms-sign-in">
+    <button type="button" class="sms-sign-in-button">
+        Sign in with SMS
+    </button>
+</div>
+
+            <p>Don't have an account? <a href="register.html">Sign Up</a></p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Matete Hardware. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
