@@ -39,21 +39,22 @@
     <section class="categories">
         <h2>Shop by Category</h2>
         <div class="category-grid">
-            <div class="category">Power Tools</div>
-            <div class="category">Hand Tools</div>
-            <div class="category">Plumbing</div>
-            <div class="category">Electrical</div>
-            <div class="category">Paint & Coatings</div>
-            <div class="category">Fasteners</div>
-            <div class="category">Building Materials</div>
-            <div class="category">Gardening & Outdoors</div>
-            <div class="category">Automotive</div>
-            <div class="category">Lighting</div>
-            <div class="category">Safety Equipment</div>
-            <div class="category">Welding Supplies</div>
-            <div class="category">Adhesives & Sealants</div>
-            <div class="category">Woodworking</div>
-            <div class="category">Locks & Security</div>
+            <div class="category" onclick="openCategory('power tools')">Power tools</div>
+            <div class="category" onclick="openCategory('Handtools')">handtools</div>
+            <div class="category" onclick="openCategory('Plumbing')">Plumbing</div>
+            <div class="category" onclick="openCategory('Electrical')">Electrical</div>
+<div class="category" onclick="openCategory('Paint & Coatings')">Paint & Coatings</div>
+<div class="category" onclick="openCategory('Fasteners')">Fasteners</div>
+<div class="category" onclick="openCategory('Building Materials')">Building Materials</div>
+<div class="category" onclick="openCategory('Gardening & Outdoors')">Gardening & Outdoors</div>
+<div class="category" onclick="openCategory('Automotive')">Automotive</div>
+<div class="category" onclick="openCategory('Lighting')">Lighting</div>
+<div class="category" onclick="openCategory('Safety Equipment')">Safety Equipment</div>
+<div class="category" onclick="openCategory('Welding Supplies')">Welding Supplies</div>
+<div class="category" onclick="openCategory('Adhesives & Sealants')">Adhesives & Sealants</div>
+<div class="category" onclick="openCategory('Woodworking')">Woodworking</div>
+<div class="category" onclick="openCategory('Locks & Security')">Locks & Security</div>
+
         </div>
     </section>
     
@@ -79,7 +80,11 @@
         <p>&copy; 2025 Matete Hardware. All Rights Reserved.</p>
     </footer>
     
-
+    <script>
+        function openCategory(category) {
+            window.location.href = `products.html?category=${category}`;
+        }
+    </script>
 
 
     <script type="module">

@@ -8,3 +8,6 @@ function addToCart() {
 function openCart() {
     alert(`You have ${cartCount} item(s) in your cart.`);
 }
+
+
+
