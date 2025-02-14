@@ -24,22 +24,18 @@
                 <input type="password" id="password" name="password" required>
 
                 <a href="index.html">
-                    <button type="button" class="sign-in-button">log in</button>
+                    <button type="button" class="sign-in-button">Log in</button>
                 </a>
             </form>
             <!-- Google Sign-In Button -->
-<div class="google-sign-in">
-    <button type="button" class="google-sign-in-button">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" class="google-logo">
-        Sign in with Google
-    </button>
-</div>
-<!-- SMS Sign-In Button -->
-<div class="sms-sign-in">
-    <button type="button" class="sms-sign-in-button">
-        Sign in with SMS
-    </button>
-</div>
+            <div class="google-sign-in">
+                <button onclick="signInWithGoogle()">Sign in with Google</button>
+            </div>
+            <!-- SMS Sign-In Button -->
+            <div class="sms-sign-in">
+                <button onclick="signInWithPhone('+1234567890')">Sign in with Phone</button>
+                <div id="recaptcha-container"></div>
+            </div>
 
             <p>Don't have an account? <a href="register.html">Sign Up</a></p>
         </div>
@@ -48,5 +44,42 @@
     <footer>
         <p>&copy; 2025 Matete Hardware. All Rights Reserved.</p>
     </footer>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfErcRDoWGwZkhSvxQehJfvh2eXdFtNjY",
+            authDomain: "online-hardware-5545a.firebaseapp.com",
+            projectId: "online-hardware-5545a",
+            storageBucket: "online-hardware-5545a.appspot.com",
+            messagingSenderId: "211586361252",
+            appId: "1:211586361252:web:ab2506f1a2c6aadfbe0331"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Define the signInWithGoogle function
+        window.signInWithGoogle = function() {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // User signed in successfully.
+                    const user = result.user;
+                    console.log("Google Sign-In successful:", user);
+                    // Redirect to dashboard or another page
+                    window.location.href = "index.html";
+                })
+                .catch((error) => {
+                    // Handle errors here.
+                    console.error("Error during Google Sign-In:", error);
+                });
+        };
+    </script>
 </body>
 </html>

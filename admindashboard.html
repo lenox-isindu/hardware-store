@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matete Hardware - Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header and Navigation (same as your customer dashboard) -->
+  <header>
+    <nav>
+      <div class="logo">Matete Hardware</div>
+      <input type="text" placeholder="Search for products..." class="search-bar" />
+      
+      <!-- Account Dropdown -->
+      <div class="account-dropdown">
+        <button class="account-btn">Admin Account 👤</button>
+        <div class="account-content">
+          <a href="hardwarelogin.html">Sign out</a>
+        </div>
+      </div>
+
+      <!-- (Optional) Cart Icon -->
+      <div class="cart-icon">
+        Cart 🛒
+        <span class="cart-badge">0</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Admin Dashboard</h1>
+    <p>Manage products and prices shown to customers</p>
+  </section>
+
+  <!-- Admin Controls Section -->
+  <section class="admin-controls">
+    <h2>Manage Products</h2>
+    <!-- Container where products will be listed -->
+    <div id="products-container"></div>
+    
+    <h3>Add New Product</h3>
+    <form id="add-product-form">
+      <input type="text" id="productName" placeholder="Product Name" required />
+      <input type="number" id="productPrice" placeholder="Product Price" required />
+      <button type="submit">Add Product</button>
+    </form>
+  </section>
+
+  <!-- Footer (same as your customer dashboard) -->
+  <footer>
+    <p>&copy; 2025 Matete Hardware. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Firebase and Firestore Admin Script -->
+  <script type="module">
+    // Import Firebase modules for app initialization and Firestore
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+    // Replace with your Firebase project configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfErcRDoWGwZkhSvxQehJfvh2eXdFtNjY",
+      authDomain: "online-hardware-5545a.firebaseapp.com",
+      projectId: "online-hardware-5545a",
+      storageBucket: "online-hardware-5545a.appspot.com",
+      messagingSenderId: "211586361252",
+      appId: "1:211586361252:web:ab2506f1a2c6aadfbe0331"
+    };
+
+    // Initialize Firebase and Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Reference to the 'products' collection in Firestore
+    const productsCol = collection(db, "products");
+
+    // Function to load products and display them in the admin panel
+    async function loadProducts() {
+      try {
+        const querySnapshot = await getDocs(productsCol);
+        const container = document.getElementById("products-container");
+        container.innerHTML = ""; // Clear previous contents
+
+        querySnapshot.forEach((docSnapshot) => {
+          const product = docSnapshot.data();
+          const id = docSnapshot.id;
+          // Create a div for each product
+          const productDiv = document.createElement("div");
+          productDiv.classList.add("product");
+          productDiv.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>Price: KES ${product.price}</p>
+            <button onclick="editProduct('${id}', '${product.name}', '${product.price}')">Edit</button>
+          `;
+          container.appendChild(productDiv);
+        });
+      } catch (error) {
+        console.error("Error loading products:", error);
+      }
+    }
+
+    // Expose editProduct to the global scope so that it can be called from onclick
+    window.editProduct = async function(id, currentName, currentPrice) {
+      // For simplicity, we use prompt() for editing. In a production system, you'd use a proper modal form.
+      const newName = prompt("Enter new product name:", currentName);
+      if (newName === null) return; // Cancelled
+      const newPrice = prompt("Enter new product price:", currentPrice);
+      if (newPrice === null) return; // Cancelled
+
+      try {
+        const productRef = doc(db, "products", id);
+        await updateDoc(productRef, {
+          name: newName,
+          price: parseFloat(newPrice)
+        });
+        alert("Product updated successfully.");
+        loadProducts(); // Refresh product list
+      } catch (error) {
+        console.error("Error updating product:", error);
+      }
+    };
+
+    // Function to add a new product to Firestore
+    async function addProduct(product) {
+      try {
+        await addDoc(productsCol, product);
+        loadProducts(); // Refresh product list after adding
+      } catch (error) {
+        console.error("Error adding product:", error);
+      }
+    }
+
+    // Handle the add product form submission
+    const addProductForm = document.getElementById("add-product-form");
+    addProductForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const productName = document.getElementById("productName").value;
+      const productPrice = parseFloat(document.getElementById("productPrice").value);
+      const product = {
+        name: productName,
+        price: productPrice
+      };
+      addProduct(product);
+      addProductForm.reset();
+    });
+
+    // Load products when the page loads
+    loadProducts();
+  </script>
+</body>
+</html>

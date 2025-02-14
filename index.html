@@ -17,7 +17,7 @@
             <div class="account-dropdown">
                 <button class="account-btn">Account👤</button>
                 <div class="account-content">
-                    <a href="hardwarelogin.html">Sign In</a>
+                    <a href="landing page.html">Sign out</a>
                     <a href="#">Orders</a>
                 </div>
             </div>
@@ -78,5 +78,66 @@
     <footer>
         <p>&copy; 2025 Matete Hardware. All Rights Reserved.</p>
     </footer>
+    
+
+
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+    
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyAfErcRDoWGwZkhSvxQehJfvh2eXdFtNjY",
+          authDomain: "online-hardware-5545a.firebaseapp.com",
+          projectId: "online-hardware-5545a",
+          storageBucket: "online-hardware-5545a.appspot.com",
+          messagingSenderId: "211586361252",
+          appId: "1:211586361252:web:ab2506f1a2c6aadfbe0331"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+    
+        
+        const IDLE_TIMEOUT = 300000;
+        let idleTimer;
+    
+        function logActivity(event) {
+          console.log(`Activity detected: ${event.type}`);
+        }
+    
+        // Reset the idle timer on any user activity
+        function resetIdleTimer(e) {
+          logActivity(e);
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(logoutUser, IDLE_TIMEOUT);
+          console.log("Idle timer reset");
+        }
+    
+        // Log out the user and redirect to the login page
+        function logoutUser() {
+          console.log("User idle for 1 minute. Logging out...");
+          signOut(auth)
+            .then(() => {
+              alert("You have been logged out due to inactivity. Please log in again.");
+              window.location.href = "hardwarelogin.html"; 
+            })
+            .catch((error) => {
+              console.error("Error signing out:", error);
+            });
+        }
+    
+        window.onload = resetIdleTimer;
+        window.onmousemove = resetIdleTimer;
+        window.onkeydown = resetIdleTimer;
+        window.onscroll = resetIdleTimer;
+        window.onclick = resetIdleTimer;
+    
+        // Start the idle timer on page load
+        idleTimer = setTimeout(logoutUser, IDLE_TIMEOUT);
+      </script>
 </body>
 </html>
